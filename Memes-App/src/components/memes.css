@@ -1,0 +1,33 @@
+.memes{
+    display: flex;
+    flex: 3;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+.meme-card{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 40px;
+    background-color: white;
+    color: black;
+    align-items: center;
+    border: 1px solid black;
+    border-top: 0px;
+}
+.meme-interior p{
+    max-width: 400px;
+  }
+  
+.meme-card img{
+    border-radius: 5%;
+}
+
+.likes{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

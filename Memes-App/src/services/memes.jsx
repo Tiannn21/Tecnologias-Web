@@ -1,5 +1,3 @@
-
-
 const URL_MEMES = "https://memes-api.grye.org";
 
 export const getDataMemes = async (page, quantity, ordernarPor) =>{

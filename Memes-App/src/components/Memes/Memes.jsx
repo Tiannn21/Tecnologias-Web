@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
 import './memes.css'
-import { likeMeme } from '../services/memes'
+import { likeMeme } from '../../services/memes'
 
 export default function Memes({ memes, token, recargarMemes }) {
     const [urlImagen, setUrlimagen] = useState("")

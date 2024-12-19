@@ -1,110 +1,39 @@
 import { useContext, useState } from "react";
-import "./App.css";
 import useMemes from "./hooks/useMemes";
-import Memes from "./components/Memes";
+import Memes from "./components/Memes/Memes.jsx";
 import { subirMeme, registrar } from "./services/memes"
 import { ContextoAutenticacion } from './context/ContextoAutenticacion.jsx'
+import IniciarSesion from "./components/InicioSesion/InicioSesion.jsx";
+import RegistrarUsuario from "./components/RegistrarUsuario/RegistrarUsuario.jsx";
+import SubirMeme from "./components/SubirMeme/SubirMeme.jsx";
+import "./App.css";
 
 function MemesApp() {
   const [ordenarPor, setOrdenarPor] = useState("new");
-  const { memes, updateMemes, updateLikes, uploadMoreMemes } = useMemes(ordenarPor);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const openDialog = () => setIsOpen(true);
-  const closeDialog = () => setIsOpen(false);
-  const [userInput, setUserInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
-
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const openRegisterDialog = () => setIsRegisterOpen(true);
-  const closeRegisterDialog = () => setIsRegisterOpen(false);
-  const [registerUser, setRegisterUser] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  const [abrirSubirMeme, setAbrirSubirMeme] = useState(false)
-  const openSubirMeme = () => setAbrirSubirMeme(true);
-  const closeSubirMeme = () => setAbrirSubirMeme(false);
-  const [titulo, setTitulo] = useState("")
-  const [descripcion, setDescripcion] = useState("")
-  const [imagenMeme, setImagenMeme] = useState("")
-
-  const [preview, setPreview] = useState(null);
-
+  const { memes, updateMemes, updateLikes, uploadMoreMemes } = useMemes(ordenarPor)
 
   const { credenciales, estaAutenticado, autenticarUsuario } = useContext(ContextoAutenticacion)
 
+  const [isOpen, setIsOpen] = useState(false)
+  const openDialog = () => setIsOpen(true)
+  const closeDialog = () => setIsOpen(false)
+
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false)
+  const openRegisterDialog = () => setIsRegisterOpen(true)
+  const closeRegisterDialog = () => setIsRegisterOpen(false)
+  
+  const [abrirSubirMeme, setAbrirSubirMeme] = useState(false)
+  const openSubirMeme = () => setAbrirSubirMeme(true)
+  const closeSubirMeme = () => setAbrirSubirMeme(false)
+  
   const handleOrdenarMasLikes = () => {
     if (ordenarPor !== "top") updateMemes()
     setOrdenarPor("top")
-  };
+  }
 
   const handleOrdenarMasReciente = () => {
     if (ordenarPor !== "new") updateMemes()
     setOrdenarPor("new")
-  }
-
-  const handleLogin = async () => {
-    const autenticado = await autenticarUsuario(userInput, passwordInput)
-    if (autenticado) {
-      closeDialog()
-      alert('Bienvenido ' + userInput + ' esta autenticado: ' + credenciales)
-      setUserInput('')
-      setPasswordInput('')
-    }
-    else alert("Autenticación fallida");
-  }
-
-  const handleRegister = async () => {
-    if (registerPassword === confirmPassword) {
-      const [message, error] = await registrar(registerUser, registerPassword)
-      if (!error) {
-        alert("Registrado con exito: " + message)
-      }
-      closeRegisterDialog()
-      setRegisterUser("")
-      setRegisterPassword("")
-      setConfirmPassword("")
-    } else {
-      alert("Las contraseñas no coinciden.");
-    }
-  };
-
-  const handleSubirMeme = async () => {
-    if (!estaAutenticado) return
-    if (!imagenMeme || !titulo || !descripcion) {
-      alert("Rellene todos los campos para subir un meme")
-      return
-    }
-    const [message, error] = await subirMeme(credenciales.access_token, titulo, descripcion, imagenMeme)
-    if (error) {
-      alert(error)
-    }
-    else {
-      updateLikes()
-      setImagenMeme()
-      setPreview()
-      setTitulo()
-      setDescripcion()
-      alert(message)
-      closeSubirMeme()
-    }
-  }
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setImagenMeme(file);
-      setPreview(URL.createObjectURL(file));
-    }
-  }
-
-  const handleCerraSubirMeme = () => {
-    closeSubirMeme()
-    setImagenMeme()
-    setPreview()
-    setTitulo()
-    setDescripcion()
   }
 
   return (
@@ -187,111 +116,13 @@ function MemesApp() {
 
       </aside>
       {isOpen && (
-        <div className="overlay">
-          <div className="dialog">
-            <h2>Iniciar Sesión</h2>
-            <input
-              type="text"
-              placeholder="Usuario"
-              className="input-field"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Contraseña"
-              className="input-field"
-              value={passwordInput}
-              onChange={(e) => setPasswordInput(e.target.value)}
-            />
-            <div className="button-group">
-              <button onClick={handleLogin}>Iniciar sesión</button>
-              <button onClick={closeDialog}>Cancelar</button>
-            </div>
-            <div>
-              <h3>No tienes cuenta?
-                <a style={{ color: '#00ace8', cursor: 'pointer' }} onClick={openRegisterDialog}> haz click aqui</a>
-              </h3>
-            </div>
-          </div>
-        </div>
+        <IniciarSesion autenticarUsuario={autenticarUsuario} closeDialog={closeDialog} openRegisterDialog={openRegisterDialog} />
       )}
       {isRegisterOpen && (
-        <div className="overlay">
-          <div className="dialog">
-            <h2>Registro</h2>
-            <input
-              type="text"
-              placeholder="Usuario"
-              className="input-field"
-              value={registerUser}
-              onChange={(e) => setRegisterUser(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Contraseña"
-              className="input-field"
-              value={registerPassword}
-              onChange={(e) => setRegisterPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Confirmar contraseña"
-              className="input-field"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <div className="button-group">
-              <button onClick={handleRegister}>Crear cuenta</button>
-              <button onClick={closeRegisterDialog}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <RegistrarUsuario registrar={registrar} closeRegisterDialog={closeRegisterDialog}/>
       )}
       {abrirSubirMeme && (
-        <div className="overlay">
-          <div className="dialogSubirMeme">
-            <h2>Sube Tu Meme</h2>
-            <div className="containerMemes">
-              <div className="header">
-                {preview ? (
-                  <img width='200' height='200' src={preview} alt="Preview" className="preview-image" />
-                ) : (
-                  <><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier">
-                    <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#000000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg><p>Browse File to upload!</p></>
-                )}
-              </div>
-
-              <label htmlFor="file" className="footer">
-                <svg fill="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M15.331 6H8.5v20h15V14.154h-8.169z"></path><path d="M18.153 6h-.009v5.342H23.5v-.002z"></path></g></svg>
-                {
-                  imagenMeme
-                    ? <p>{imagenMeme.name}</p>
-                    : <p>No has seleccionado un meme</p>
-                }
-              </label>
-              <input id="file" type="file" onChange={handleFileChange} />
-            </div>
-            <input
-              type="text"
-              placeholder="Titulo"
-              className="inputSubirMeme"
-              value={titulo}
-              onChange={(e) => setTitulo(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Descripcion"
-              className="inputSubirMeme"
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
-            />
-            <div className="button-group">
-              <button onClick={handleSubirMeme}>Subir</button>
-              <button onClick={handleCerraSubirMeme}>Cancelar</button>
-            </div>
-          </div>
-        </div>
+        <SubirMeme estaAutenticado={estaAutenticado} closeSubirMeme={closeSubirMeme} token={credenciales.access_token} updateLikes={updateLikes} subirMeme={subirMeme}/>
       )}
 
       <main className="main" id="main">

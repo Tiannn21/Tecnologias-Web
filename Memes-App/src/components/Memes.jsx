@@ -1,8 +1,25 @@
 /* eslint-disable react/prop-types */
+import { useState } from 'react'
 import './memes.css'
+import { likeMeme } from '../services/memes'
 
-export default function Memes({ memes }) {
+export default function Memes({ memes, token, recargarMemes }) {
+    const [urlImagen, setUrlimagen] = useState("")
+    const [abrirImagen,setAbrirImagen] = useState(false)
+
+    const handleAbrirImagen = (img_url) =>{
+        setAbrirImagen(!abrirImagen)
+        setUrlimagen(img_url)
+    }
+
+    const handleLikes = async (id) =>{
+        const [message, ] = await likeMeme(token,id)
+        if(message)
+            recargarMemes()        
+    }
+
     return (
+        <>
         <ul className='memes'>
             {
                 memes.map((meme) => (
@@ -11,9 +28,9 @@ export default function Memes({ memes }) {
                             <strong>{meme.user}</strong>
                             <p>{meme.title}</p>
                             <p>{meme.description}</p>
-                            <img width='400px' height='400px' src={meme.img_url} alt={meme.title} />
+                            <img onClick={()=>handleAbrirImagen(meme.img_url)} width='400px' height='400px' src={meme.img_url} alt={meme.title} />
                             <div className='likes'>
-                                <img width="25" height="25" src="https://img.icons8.com/ios/50/like--v1.png" alt="imagen de corazon para likes" />
+                                <img onClick={()=>handleLikes(meme._id)} width="25" height="25" src="https://img.icons8.com/color/48/like--v3.png" />
                                 <p>{meme.likes}</p>
                             </div>
                         </li>
@@ -22,5 +39,15 @@ export default function Memes({ memes }) {
                 )
             }
         </ul>
+        {
+            abrirImagen &&(
+                <div className='overlay' onClick={()=>setAbrirImagen(false)}>
+                    <div className='dialog-imagen'>
+                        <img src={urlImagen} width='700' height='700'></img>
+                    </div>
+                </div>
+            )
+        }
+        </>
     )
 }

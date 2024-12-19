@@ -12,9 +12,10 @@ const useMemes = (sortBy) => {
       setIsLoading(false);
       return;
     }
+    if(!sortBy) return
 
     setIsLoading(true);
-    getDataMemes(uploadPage, 10,sortBy)
+    getDataMemes(uploadPage,10,sortBy)
       .then(([data, error]) => {
         if (error) {
           console.error(error);
@@ -41,6 +42,12 @@ const useMemes = (sortBy) => {
     uploadMemes(1);
   };
 
+  const updateLikes = () =>{
+    setMemes([])
+    setIsMore(true)
+    uploadMemes(page,sortBy)
+  }
+
   const uploadMoreMemes = () => {
     if (isMore && !isLoading) {
       setPage((prevPage) => prevPage + 1);
@@ -51,7 +58,7 @@ const useMemes = (sortBy) => {
     uploadMemes(page,sortBy);
   }, [page,sortBy]);
 
-  return { memes, isLoading, uploadMoreMemes, updateMemes };
+  return { memes, isLoading, uploadMoreMemes, updateMemes, updateLikes };
 };
 
 export default useMemes;

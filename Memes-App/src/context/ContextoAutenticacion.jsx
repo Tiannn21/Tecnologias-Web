@@ -2,6 +2,7 @@
 import { createContext, useState } from "react";
 import { autenticar } from "../services/memes";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ContextoAutenticacion = createContext();
 
 export const ProveedorAutenticacion = ({ children }) => {
@@ -14,7 +15,7 @@ export const ProveedorAutenticacion = ({ children }) => {
       actualizaEstaAutenticado(false);
       return false;
     }
-
+  
     actualizaCredenciales(creds);
     actualizaEstaAutenticado(true);
     return true;

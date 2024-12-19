@@ -7,9 +7,26 @@
   font-size: 16px;
   box-sizing: border-box;
 }
+.inputSubirMeme{
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
 
 .button-group button {
   margin: 10px;
+  background-color: #00ace8;
+  color: white;
+  border: 0;
+  border-radius: 25px;
+}
+.button-group button:hover {
+  color: #fff;
+  border: 1px solid rgb(40, 144, 241);
 }
 
 .container {
@@ -19,9 +36,9 @@
   justify-content: space-evenly;
 }
 aside {
-  position: sticky; /* Se mantiene estático al hacer scroll */
-  top: 0; /* Fija el aside desde la parte superior */
-  height: 100vh; /* Ocupa toda la altura visible */
+  position: sticky;
+  top: 0;
+  height: 100vh; 
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -30,7 +47,7 @@ aside {
   padding: 10px;
 }
 
-aside button {
+.botones-azules{
   background: transparent;
   position: relative;
   padding: 5px 15px;
@@ -50,11 +67,11 @@ aside button {
   fill: #00ace8;
 }
 
-aside button span {
+.botones-azules span {
   margin: 10px;
 }
 
-aside button::before {
+.botones-azules::before {
   position: absolute;
   top: 0;
   left: 0;
@@ -72,13 +89,13 @@ aside button::before {
   z-index: -1;
 }
 
-aside button:hover {
+.botones-azules:hover {
   fill: #fff;
   color: #fff;
   border: 1px solid #00ace8;
 }
 
-aside button:hover::before {
+.botones-azules:hover::before {
   box-shadow: inset 0 0 0 10em #00ace8;
 }
 
@@ -93,7 +110,7 @@ aside button:hover::before {
 
 .categoria:focus,
 .categoria:focus-visible {
-  border-bottom: 3px solid #1a8cd8;
+  border-bottom: 3px solid #00ace8;
 }
 
 .right-aside {
@@ -117,7 +134,7 @@ aside button:hover::before {
   z-index: 1000;
 }
 
-.dialog {
+.dialog{
   background-color: white;
   padding: 20px;
   color: black;
@@ -125,4 +142,103 @@ aside button:hover::before {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   min-width: 300px;
   text-align: center;
+}
+
+.dialog input{
+  background-color: transparent;
+  color: black;
+}
+
+.dialogSubirMeme {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 20px;
+  color: black;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+  text-align: center;
+}
+.dialogSubirMeme input{
+  background-color: transparent;
+  color: black;
+}
+
+.verMas{
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.verMas button{
+  width: 100%;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.containerMemes {
+  height: 300px;
+  width: 300px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 5px;
+  background-color: transparent;
+}
+
+.header {
+  flex: 1;
+  width: 100%;
+  border: 2px dashed #00ace8;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.header svg {
+  height: 100px;
+}
+
+.header p {
+  text-align: center;
+  color: black;
+}
+
+.footer {
+  background-color: rgba(0, 110, 255, 0.075);
+  width: 100%;
+  height: 40px;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: black;
+  border: none;
+}
+
+.footer svg {
+  height: 100%;
+  fill: #00ace8;
+  background-color: rgba(70, 66, 66, 0.103);
+  border-radius: 50%;
+  padding: 2px;
+  cursor: pointer;
+  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.205);
+}
+
+.footer p {
+  flex: 1;
+  text-align: center;
+}
+
+#file {
+  display: none;
 }

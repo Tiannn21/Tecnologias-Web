@@ -13,8 +13,10 @@ export default function Memes({ memes, token, recargarMemes }) {
     }
 
     const handleLikes = async (id) =>{
-        const [message, ] = await likeMeme(token,id)
-        if(message)
+        const [likes, error] = await likeMeme(token,id)
+        if(likes)
+            console.log(error)
+            console.log(likes)
             recargarMemes()        
     }
 
